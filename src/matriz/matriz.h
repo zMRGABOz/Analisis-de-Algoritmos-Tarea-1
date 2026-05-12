@@ -18,6 +18,10 @@ public:
     inline const double& operator()(int fila, int columna) const{
         return coeficientes[fila * columnas + columna];
     }
+
+    int get_filas() const;
+
+    int get_columnas() const;
 };
 
 #endif
