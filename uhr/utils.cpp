@@ -27,11 +27,11 @@ Tipo stringToTipo(std::string str) {
 }
 
 inline void validate_input(int argc, char *argv[], std::int64_t& runs,
-    std::int64_t& lower, std::int64_t& upper, std::int64_t& step, Tipo& tipo)
+    std::int64_t& lower, std::int64_t& upper, Tipo& tipo)
 {
-    if (argc != 7) {
-        std::cerr << "Usage: <filename> <RUNS> <LOWER> <UPPER> <STEP> <TIPO>" << std::endl;
-        std::cerr << "TIPO: NORMAL, IDENTIDAD, TRIANGULAR_SUP, TRIANGULAR_INF, SIMETRICA, DIAGONAL, ESCALAR, DISPERSA, DECIMAL" << std::endl;
+    if (argc != 6) {
+        std::cerr << "Usage: <filename> <RUNS> <LOWER> <UPPER> <TIPO>" << std::endl;
+        std::cerr << "TIPO: NORMAL, IDENTIDAD, TRIANGULAR_SUP, TRIANGULAR_INF, SIMETRICA, DIAGONAL, ESCALAR, DISPERSA" << std::endl;
         std::cerr << "<filename> is the name of the file where performance data will be written." << std::endl;
         std::cerr << "It is recommended for <filename> to have .csv extension and it should not previously exist." << std::endl;
         std::cerr << "<RUNS>: numbers of runs per test case: should be >= 32." << std::endl;
@@ -45,8 +45,7 @@ inline void validate_input(int argc, char *argv[], std::int64_t& runs,
         runs = std::stoll(argv[2]);
         lower = std::stoll(argv[3]);
         upper = std::stoll(argv[4]);
-        step = std::stoll(argv[5]);
-        tipo = stringToTipo(argv[6]);
+        tipo = stringToTipo(argv[5]);
     } catch (std::invalid_argument const& ex) {
         std::cerr << "std::invalid_argument::what(): " << ex.what() << std::endl;
         std::exit(EXIT_FAILURE);
@@ -60,9 +59,9 @@ inline void validate_input(int argc, char *argv[], std::int64_t& runs,
         std::cerr << "<RUNS> must be at least 4." << std::endl;
         std::exit(EXIT_FAILURE);
     }
-    if (step <= 0 or lower <= 0 or upper <= 0) {
-        std::cerr << "<STEP>, <LOWER> and <UPPER> have to be positive." << std::endl;
-        std::exit(EXIT_FAILURE);
+    if ((lower & (lower - 1)) != 0 || (upper & (upper - 1)) != 0) {
+            std::cerr << "Error: LOWER y UPPER deben ser potencias de 2 (8, 16, 32...)." << std::endl;
+            std::exit(EXIT_FAILURE);
     }
     if (lower > upper) {
         std::cerr << "<LOWER> must be at most equal to <UPPER>." << std::endl;
