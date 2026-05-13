@@ -11,6 +11,9 @@ private:
 public:
     Matriz(int filas, int columnas);
 
+    friend Matriz operator+(const Matriz& A, const Matriz& B);
+    friend Matriz operator-(const Matriz& A, const Matriz& B);
+
     inline double& operator()(int fila, int columna){
         return coeficientes[fila * columnas + columna];
     }
