@@ -19,3 +19,11 @@ Analisis-de-Algoritmos-Tarea-1/
 │   └── matriz/        # Clase para el manejo de matrices
 └── urh/               # Utilidades sugeridas para las pruebas
 ```
+
+## Instrucciones de Compilacion
+
+Para compilar la herramienta de pruebas se debe de ejecutar el siguiente comando:
+
+```bash
+g++ -std=c++11 -O0 -o uhr/uhr uhr/uhr.cpp src/matriz/matriz.cpp
+```
