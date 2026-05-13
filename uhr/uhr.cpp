@@ -24,14 +24,15 @@
 int main(int argc, char *argv[])
 {
     // Validate and sanitize input
-    std::int64_t runs, lower, upper, step;
+    std::int64_t runs, lower, upper;
     Tipo tipo_matriz;
-    validate_input(argc, argv, runs, lower, upper, step, tipo_matriz);
+    validate_input(argc, argv, runs, lower, upper, tipo_matriz);
 
     // Set up clock variables
     std::int64_t n, i, executed_runs;
-    std::int64_t total_runs_additive = runs * (((upper - lower) / step) + 1);
-    std::int64_t total_runs_multiplicative = runs * (floor(log(upper / double(lower)) / log(step)) + 1);
+    // Como ahora n se duplica (n *= 2), usamos logaritmo en base 2.
+    // La fórmula calcula cuántos "saltos" de potencia de 2 hay entre lower y upper.
+    std::int64_t total_runs = runs * (static_cast<std::int64_t>(std::log2(upper / static_cast<double>(lower))) + 1);
     std::vector<double> times(runs);
     std::vector<double> q;
     double mean_time, time_stdev, dev;
@@ -52,7 +53,7 @@ int main(int argc, char *argv[])
     // Begin testing
     std::cerr << "\033[0;36mRunning tests...\033[0m" << std::endl << std::endl;
     executed_runs = 0;
-    for (n = lower; n <= upper; n += step) {
+    for (n = lower; n <= upper; n *= 2) { // iteramos sobre potencias de 2
         mean_time = 0;
         time_stdev = 0;
 
@@ -64,7 +65,7 @@ int main(int argc, char *argv[])
         // Run to compute elapsed time
         for (i = 0; i < runs; i++) {
             // Remember to change total depending on step type
-            display_progress(++executed_runs, total_runs_additive);
+            display_progress(++executed_runs, total_runs);
 
             begin_time = std::chrono::high_resolution_clock::now();
             // Function to test goes here
