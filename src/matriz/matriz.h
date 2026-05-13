@@ -19,6 +19,12 @@ public:
         return coeficientes[fila * columnas + columna];
     }
 
+    // Versión para modificar
+    std::vector<double>& get_data_vector();
+
+    // Versión para solo lectura
+    const std::vector<double>& get_data_vector() const;
+
     int get_filas() const;
 
     int get_columnas() const;

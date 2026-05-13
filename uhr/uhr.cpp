@@ -25,7 +25,8 @@ int main(int argc, char *argv[])
 {
     // Validate and sanitize input
     std::int64_t runs, lower, upper, step;
-    validate_input(argc, argv, runs, lower, upper, step);
+    Tipo tipo_matriz;
+    validate_input(argc, argv, runs, lower, upper, step, tipo_matriz);
 
     // Set up clock variables
     std::int64_t n, i, executed_runs;
@@ -56,6 +57,9 @@ int main(int argc, char *argv[])
         time_stdev = 0;
 
         // Test configuration goes here
+        // Generar las matrices de tamaño n x n
+        Matriz A = fabricar_matriz(tipo_matriz, n);
+        Matriz B = fabricar_matriz(tipo_matriz, n);
 
         // Run to compute elapsed time
         for (i = 0; i < runs; i++) {
@@ -64,6 +68,7 @@ int main(int argc, char *argv[])
 
             begin_time = std::chrono::high_resolution_clock::now();
             // Function to test goes here
+            // colocar el clasico o strassen
             end_time = std::chrono::high_resolution_clock::now();
 
             elapsed_time = end_time - begin_time;
