@@ -14,6 +14,20 @@
 
 #include "../src/generador/fabricar_matriz.cpp"
 
+enum Algoritmo {
+    CLASICO,
+    STRASSEN
+};
+
+// Función auxiliar para convertir el string de la terminal al enum
+Algoritmo stringToAlgoritmo(const std::string& str) {
+    if (str == "CLASICO") return CLASICO;
+    if (str == "STRASSEN") return STRASSEN;
+
+    std::cerr << "Error: Algoritmo desconocido. Usa CLASICO o STRASSEN." << std::endl;
+    std::exit(EXIT_FAILURE);
+}
+
 Tipo stringToTipo(std::string str) {
     if (str == "0" || str == "NORMAL")         return NORMAL;
     if (str == "1" || str == "IDENTIDAD")      return IDENTIDAD;
@@ -23,15 +37,16 @@ Tipo stringToTipo(std::string str) {
     if (str == "5" || str == "DIAGONAL")       return DIAGONAL;
     if (str == "6" || str == "ESCALAR")        return ESCALAR;
     if (str == "7" || str == "DISPERSA")       return DISPERSA;
+    if (str == "8" || str == "DECIMAL")        return DECIMAL;
     return NORMAL; // Por defecto
 }
 
 inline void validate_input(int argc, char *argv[], std::int64_t& runs,
-    std::int64_t& lower, std::int64_t& upper, Tipo& tipo)
+    std::int64_t& lower, std::int64_t& upper, Tipo& tipo, Algoritmo& algoritmo)
 {
-    if (argc != 6) {
-        std::cerr << "Usage: <filename> <RUNS> <LOWER> <UPPER> <TIPO>" << std::endl;
-        std::cerr << "TIPO: NORMAL, IDENTIDAD, TRIANGULAR_SUP, TRIANGULAR_INF, SIMETRICA, DIAGONAL, ESCALAR, DISPERSA" << std::endl;
+    if (argc != 7) {
+        std::cerr << "Usage: <filename> <RUNS> <LOWER> <UPPER> <TIPO> <ALGORITMO>" << std::endl;
+        std::cerr << "TIPO: NORMAL, IDENTIDAD, TRIANGULAR_SUP, TRIANGULAR_INF, SIMETRICA, DIAGONAL, ESCALAR, DISPERSA, DECIMAL" << std::endl;
         std::cerr << "<filename> is the name of the file where performance data will be written." << std::endl;
         std::cerr << "It is recommended for <filename> to have .csv extension and it should not previously exist." << std::endl;
         std::cerr << "<RUNS>: numbers of runs per test case: should be >= 32." << std::endl;
@@ -46,6 +61,7 @@ inline void validate_input(int argc, char *argv[], std::int64_t& runs,
         lower = std::stoll(argv[3]);
         upper = std::stoll(argv[4]);
         tipo = stringToTipo(argv[5]);
+        algoritmo = stringToAlgoritmo(argv[6]);
     } catch (std::invalid_argument const& ex) {
         std::cerr << "std::invalid_argument::what(): " << ex.what() << std::endl;
         std::exit(EXIT_FAILURE);

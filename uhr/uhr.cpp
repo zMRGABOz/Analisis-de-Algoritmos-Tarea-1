@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "utils.cpp"
+#include "../src/algoritmos/strassen.cpp"
 
 // Include to be tested files here
 
@@ -26,7 +27,8 @@ int main(int argc, char *argv[])
     // Validate and sanitize input
     std::int64_t runs, lower, upper;
     Tipo tipo_matriz;
-    validate_input(argc, argv, runs, lower, upper, tipo_matriz);
+    Algoritmo algoritmo;
+    validate_input(argc, argv, runs, lower, upper, tipo_matriz, algoritmo);
 
     // Set up clock variables
     std::int64_t n, i, executed_runs;
@@ -69,7 +71,14 @@ int main(int argc, char *argv[])
 
             begin_time = std::chrono::high_resolution_clock::now();
             // Function to test goes here
-            // colocar el clasico o strassen
+            switch(algoritmo) {
+                case CLASICO:
+                    clasico(A, B);
+                    break;
+                case STRASSEN:
+                    strassen(A, B);
+                    break;
+            }
             end_time = std::chrono::high_resolution_clock::now();
 
             elapsed_time = end_time - begin_time;
