@@ -43,5 +43,9 @@ int main() {
     Matriz dis = fabricar_matriz(DISPERSA, 6); // Un poco más grande para ver los huecos
     imprimir_matriz(dis, "DISPERSA (30%)");
 
+    // 6. Probar Decimal
+    Matriz dec = fabricar_matriz(DECIMAL, n);
+    imprimir_matriz(dec, "DECIMAL");
+
     return 0;
 }

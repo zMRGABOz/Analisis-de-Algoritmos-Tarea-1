@@ -9,7 +9,8 @@ enum Tipo {
     SIMETRICA,
     DIAGONAL,
     DISPERSA,
-    ESCALAR
+    ESCALAR,
+    DECIMAL
 };
 
 Matriz fabricar_matriz(Tipo tipo, int n) {
@@ -18,6 +19,7 @@ Matriz fabricar_matriz(Tipo tipo, int n) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 20.0);
+    std::uniform_real_distribution<> dis_decimal(0.0, 1.0);
 
     switch(tipo) {
         case NORMAL:{
@@ -58,17 +60,24 @@ Matriz fabricar_matriz(Tipo tipo, int n) {
                 for(int j = 0; j <= i; ++j) matriz(i, j) = dis(gen);
             break;
 
-        case DISPERSA:
+        case DISPERSA: {
+            std::uniform_int_distribution<> prob(0, 99); // Para el porcentaje
             for(int i = 0; i < n; ++i)
                 for(int j = 0; j < n; ++j)
-                    // Solo un 30% de probabilidad de tener valor
-                    if((rand() % 100) < 30) matriz(i, j) = dis(gen);
+                    if(prob(gen) < 30) matriz(i, j) = dis(gen); // 30% de probabilidad de ser no cero
             break;
+        }
 
         case DIAGONAL:
             for(int i = 0; i < n; ++i)
                 for(int j = 0; j < n; ++j)
                     matriz(i, j) = (i == j) ? dis(gen) : 0.0;
+            break;
+
+        case DECIMAL:
+            for(int i = 0; i < n; ++i)
+                for(int j = 0; j < n; ++j)
+                    matriz(i, j) = dis_decimal(gen);
             break;
     }
 

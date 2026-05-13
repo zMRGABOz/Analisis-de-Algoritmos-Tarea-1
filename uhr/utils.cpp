@@ -31,7 +31,7 @@ inline void validate_input(int argc, char *argv[], std::int64_t& runs,
 {
     if (argc != 7) {
         std::cerr << "Usage: <filename> <RUNS> <LOWER> <UPPER> <STEP> <TIPO>" << std::endl;
-        std::cerr << "TIPO: NORMAL, IDENTIDAD, TRIANGULAR_SUP, TRIANGULAR_INF, SIMETRICA, DIAGONAL, ESCALAR, DISPERSA" << std::endl;
+        std::cerr << "TIPO: NORMAL, IDENTIDAD, TRIANGULAR_SUP, TRIANGULAR_INF, SIMETRICA, DIAGONAL, ESCALAR, DISPERSA, DECIMAL" << std::endl;
         std::cerr << "<filename> is the name of the file where performance data will be written." << std::endl;
         std::cerr << "It is recommended for <filename> to have .csv extension and it should not previously exist." << std::endl;
         std::cerr << "<RUNS>: numbers of runs per test case: should be >= 32." << std::endl;
