@@ -16,15 +16,17 @@
 
 enum Algoritmo {
     CLASICO,
-    STRASSEN
+    STRASSEN,
+    HIBRIDO
 };
 
 // Función auxiliar para convertir el string de la terminal al enum
 Algoritmo stringToAlgoritmo(const std::string& str) {
     if (str == "CLASICO") return CLASICO;
     if (str == "STRASSEN") return STRASSEN;
+    if (str == "HIBRIDO") return HIBRIDO;
 
-    std::cerr << "Error: Algoritmo desconocido. Usa CLASICO o STRASSEN." << std::endl;
+    std::cerr << "Error: Algoritmo desconocido. Usa CLASICO, STRASSEN o HIBRIDO." << std::endl;
     std::exit(EXIT_FAILURE);
 }
 
@@ -42,16 +44,17 @@ Tipo stringToTipo(std::string str) {
 }
 
 inline void validate_input(int argc, char *argv[], std::int64_t& runs,
-    std::int64_t& lower, std::int64_t& upper, Tipo& tipo, Algoritmo& algoritmo)
+    std::int64_t& lower, std::int64_t& upper, Tipo& tipo, Algoritmo& algoritmo, std::int64_t& n0)
 {
-    if (argc != 7) {
-        std::cerr << "Usage: <filename> <RUNS> <LOWER> <UPPER> <TIPO> <ALGORITMO>" << std::endl;
+    if (argc < 7 || argc > 8) {
+        std::cerr << "Usage: <filename> <RUNS> <LOWER> <UPPER> <TIPO> <ALGORITMO> [N0]" << std::endl;
         std::cerr << "TIPO: NORMAL, IDENTIDAD, TRIANGULAR_SUP, TRIANGULAR_INF, SIMETRICA, DIAGONAL, ESCALAR, DISPERSA, DECIMAL" << std::endl;
         std::cerr << "<filename> is the name of the file where performance data will be written." << std::endl;
         std::cerr << "It is recommended for <filename> to have .csv extension and it should not previously exist." << std::endl;
         std::cerr << "<RUNS>: numbers of runs per test case: should be >= 32." << std::endl;
         std::cerr << "<LOWER> <UPPER> <STEP>: range of test cases." << std::endl;
         std::cerr << "These should all be positive." << std::endl;
+        std::cerr << "[N0]: Tamaño base para algoritmo híbrido (opcional)." << std::endl;
         std::exit(EXIT_FAILURE);
     }
 
@@ -62,6 +65,11 @@ inline void validate_input(int argc, char *argv[], std::int64_t& runs,
         upper = std::stoll(argv[4]);
         tipo = stringToTipo(argv[5]);
         algoritmo = stringToAlgoritmo(argv[6]);
+        if (argc == 8) {
+            n0 = std::stoll(argv[7]);
+        } else {
+            n0 = 1;
+        }
     } catch (std::invalid_argument const& ex) {
         std::cerr << "std::invalid_argument::what(): " << ex.what() << std::endl;
         std::exit(EXIT_FAILURE);

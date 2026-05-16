@@ -25,10 +25,10 @@
 int main(int argc, char *argv[])
 {
     // Validate and sanitize input
-    std::int64_t runs, lower, upper;
+    std::int64_t runs, lower, upper, n0;
     Tipo tipo_matriz;
     Algoritmo algoritmo;
-    validate_input(argc, argv, runs, lower, upper, tipo_matriz, algoritmo);
+    validate_input(argc, argv, runs, lower, upper, tipo_matriz, algoritmo, n0);
 
     // Set up clock variables
     std::int64_t n, i, executed_runs;
@@ -77,6 +77,9 @@ int main(int argc, char *argv[])
                     break;
                 case STRASSEN:
                     strassen(A, B);
+                    break;
+                case HIBRIDO:
+                    strassen(A, B, n0);
                     break;
             }
             end_time = std::chrono::high_resolution_clock::now();
